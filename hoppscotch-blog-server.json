@@ -1,0 +1,213 @@
+{
+    "v": 5,
+    "name": "blog-server",
+    "folders": [],
+    "requests": [
+        {
+            "v": "10",
+            "name": "sitemap.xml",
+            "method": "POST",
+            "endpoint": "<<BASE_URL>>/sitemap.xml",
+            "params": [],
+            "headers": [],
+            "preRequestScript": "",
+            "testScript": "",
+            "auth": {
+                "authType": "none",
+                "authActive": true
+            },
+            "body": {
+                "contentType": null,
+                "body": null
+            },
+            "requestVariables": [],
+            "responses": {}
+        },
+        {
+            "v": "10",
+            "name": "api/login",
+            "method": "POST",
+            "endpoint": "<<BASE_URL>>/api/login",
+            "params": [],
+            "headers": [],
+            "preRequestScript": "",
+            "testScript": "  const data = pw.response.body.success.data;\n  pw.env.set(\"TOKEN\", data.token);",
+            "auth": {
+                "authType": "none",
+                "authActive": true
+            },
+            "body": {
+                "contentType": "application/json",
+                "body": "{\n  \"slug\":\"<<SLUG>>\",\n  \"password\":\"<<PASSWORD>>\"\n}"
+            },
+            "requestVariables": [],
+            "responses": {}
+        },
+        {
+            "v": "10",
+            "name": "api/author/me",
+            "method": "GET",
+            "endpoint": "<<BASE_URL>>/api/author/slug/<<SLUG>>",
+            "params": [],
+            "headers": [],
+            "preRequestScript": "",
+            "testScript": "",
+            "auth": {
+                "authType": "none",
+                "authActive": true
+            },
+            "body": {
+                "contentType": null,
+                "body": null
+            },
+            "requestVariables": [],
+            "responses": {}
+        },
+        {
+            "v": "10",
+            "name": "api/author/slug/<<SLUG>>",
+            "method": "GET",
+            "endpoint": "<<BASE_URL>>/api/author/me",
+            "params": [],
+            "headers": [
+                {
+                    "key": "Token",
+                    "value": "<<TOKEN>>",
+                    "active": true,
+                    "description": ""
+                }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "auth": {
+                "authType": "none",
+                "authActive": true
+            },
+            "body": {
+                "contentType": null,
+                "body": null
+            },
+            "requestVariables": [],
+            "responses": {}
+        },
+        {
+            "v": "10",
+            "name": "api/posts?limit=10&offset=0",
+            "method": "GET",
+            "endpoint": "<<BASE_URL>>/api/posts",
+            "params": [
+                {
+                    "key": "limit",
+                    "value": "10",
+                    "active": true,
+                    "description": ""
+                },
+                {
+                    "key": "offset",
+                    "value": "0",
+                    "active": true,
+                    "description": ""
+                }
+            ],
+            "headers": [],
+            "preRequestScript": "",
+            "testScript": "",
+            "auth": {
+                "authType": "none",
+                "authActive": true
+            },
+            "body": {
+                "contentType": null,
+                "body": null
+            },
+            "requestVariables": [],
+            "responses": {}
+        },
+        {
+            "v": "10",
+            "name": "api/posts/hidden?limit=10&offset=0",
+            "method": "GET",
+            "endpoint": "<<BASE_URL>>/api/posts/hidden",
+            "params": [
+                {
+                    "key": "limit",
+                    "value": "10",
+                    "active": true,
+                    "description": ""
+                },
+                {
+                    "key": "offset",
+                    "value": "0",
+                    "active": true,
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "key": "Token",
+                    "value": "<<TOKEN>>",
+                    "active": true,
+                    "description": ""
+                }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "auth": {
+                "authType": "none",
+                "authActive": true
+            },
+            "body": {
+                "contentType": null,
+                "body": null
+            },
+            "requestVariables": [],
+            "responses": {}
+        },
+        {
+            "v": "10",
+            "name": "api/posts/unpublished?limit=10&offset=0",
+            "method": "GET",
+            "endpoint": "<<BASE_URL>>/api/posts/unpublished",
+            "params": [
+                {
+                    "key": "limit",
+                    "value": "10",
+                    "active": true,
+                    "description": ""
+                },
+                {
+                    "key": "offset",
+                    "value": "0",
+                    "active": true,
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "key": "Token",
+                    "value": "<<TOKEN>>",
+                    "active": true,
+                    "description": ""
+                }
+            ],
+            "preRequestScript": "",
+            "testScript": "",
+            "auth": {
+                "authType": "none",
+                "authActive": true
+            },
+            "body": {
+                "contentType": null,
+                "body": null
+            },
+            "requestVariables": [],
+            "responses": {}
+        }
+    ],
+    "auth": {
+        "authType": "none",
+        "authActive": true
+    },
+    "headers": [],
+    "_ref_id": "coll_m5h3nmtl_0e70e243-2b39-4bcc-88b5-f1b1dca21825"
+}
