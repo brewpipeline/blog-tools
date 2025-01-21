@@ -1,0 +1,46 @@
+sudo apt-get update
+sudo apt-get --with-new-pkgs upgrade
+
+# Install and setup cloudflared tunnel
+sudo mkdir -p --mode=0755 /usr/share/keyrings
+curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null
+echo 'deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main' | sudo tee /etc/apt/sources.list.d/cloudflared.list
+sudo apt-get update
+sudo apt-get install cloudflared
+sudo cloudflared service install {{__TOKEN__}}
+
+# Install libssl-dev
+sudo apt-get install libssl-dev
+
+# Install git
+sudo apt-get install git
+
+# Enable linger for your user
+sudo loginctl enable-linger {{__USER__}}
+
+# Install postgresql
+sudo install -d /usr/share/postgresql-common/pgdg
+sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
+sudo sh -c 'echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+sudo apt-get update
+sudo apt-get install postgresql
+
+# Install Nginx
+curl -fSsL https://nginx.org/keys/nginx_signing.key | sudo gpg --dearmor | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg > /dev/null
+gpg --dry-run --quiet --import --import-options import-show /usr/share/keyrings/nginx-archive-keyring.gpg
+echo "deb [arch=amd64,arm64 signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/mainline/debian `lsb_release -cs` nginx" | sudo tee /etc/apt/sources.list.d/nginx.list
+echo -e "Package: *\nPin: origin nginx.org\nPin: release o=nginx\nPin-Priority: 900\n" | sudo tee /etc/apt/preferences.d/99nginx
+sudo apt-get update
+sudo apt-get install nginx
+
+# Install Rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# Install Trunk
+cargo install --locked trunk
+
+# Install ansible
+sudo apt-get install ansible
+
+# Install binaryen
+# !!! Manual step to download and setup https://github.com/WebAssembly/binaryen/releases !!!
