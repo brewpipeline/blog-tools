@@ -12,6 +12,9 @@ sudo cloudflared service install {{__TOKEN__}}
 # Install libssl-dev
 sudo apt-get install libssl-dev
 
+# Install libwebp-dev
+sudo apt-get install libwebp-dev
+
 # Install git
 sudo apt-get install git
 
