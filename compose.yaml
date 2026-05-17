@@ -67,25 +67,13 @@ services:
     networks: [internal]
     environment:
       PORT: "80"
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
       PG_URL: postgres://postgres:${POSTGRES_PASSWORD:-postgres}@postgres:5432/blog
-      RABBIT_URL: ${RABBIT_URL:-}
+      RABBIT_URL: ${RABBIT_URL:-placeholder}
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
     ports:
       - "${BLOG_PORT:-8080}:80"
-    volumes:
-      - jwt-secret:/run/secrets/blog
-    command:
-      - /bin/sh
-      - -c
-      - |
-        set -eu
-        if [ ! -s /run/secrets/blog/jwt ]; then
-          od -An -N48 -tx1 /dev/urandom | tr -d ' \n' > /run/secrets/blog/jwt
-          chmod 600 /run/secrets/blog/jwt
-        fi
-        export JWT_SECRET="$$(cat /run/secrets/blog/jwt)"
-        exec /app/start.sh
     depends_on:
       postgres:
         condition: service_healthy
@@ -98,4 +86,3 @@ networks:
 volumes:
   postgres-data:
   images-data:
-  jwt-secret:
